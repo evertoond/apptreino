@@ -23,11 +23,11 @@
     }?>
     <span id="msg"></span>
     <form id="add-aula" method="POST">
-        <div id="formulario">
+        <div class="formulario" id="formulario1">
             <div class="form-group">
                 <label>Grupo Muscular: </label>
                 <input type="text" name="nomeMusculo[]">
-                <button type="button" id="add-campo"> + </button>
+                <button type="button" class="add-campo"> + </button>
             </div>
         </div>
         <div class="form-group">
@@ -38,32 +38,41 @@
     <script>
         var cont = 1;
 
-        document.getElementById('add-campo').addEventListener('click', function() {
-            cont++;
-
-            var formulario = document.getElementById('formulario');
-
-            var novoCampo = document.createElement('div');
-            novoCampo.className = 'form-group';
-            novoCampo.id = 'campo' + cont;
-            novoCampo.innerHTML = '<label>Nome do exercício: </label>' +
-                '<input type="text" name="nomeExercicio[]">' +
-                '<label>Quantidade de séries: </label>' +
-                '<input type="text" name="quantidadeSeries[]">' +
-                '<label>Quantidade de repetições: </label>' +
-                '<input type="text" name="quantidadeRepeticao[]">' +
-                '<label>Anotação: </label>' +
-                '<input type="text" name="anotacao[]">' +
-                '<button type="button" id="' + cont + '" class="btn-apagar"> - </button>';
-
-            formulario.appendChild(novoCampo);
-        });
-
         document.querySelector('form').addEventListener('click', function(event) {
-            if (event.target.classList.contains('btn-apagar')) {
-                var buttonId = event.target.id;
-                var campoParaRemover = document.getElementById('campo' + buttonId);
-                campoParaRemover.remove();
+            if (event.target.classList.contains('add-campo')) {
+                cont++;
+
+                var formulario = document.getElementById('add-aula');
+                var novoFormulario = document.createElement('div');
+                novoFormulario.className = 'formulario';
+                novoFormulario.id = 'formulario' + cont;
+                novoFormulario.innerHTML = '<div class="form-group">' +
+                    '<label>Grupo Muscular: </label>' +
+                    '<input type="text" name="nomeMusculo[]">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label>Nome do exercício: </label>' +
+                    '<input type="text" name="nomeExercicio[]">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label>Quantidade de séries: </label>' +
+                    '<input type="text" name="quantidadeSeries[]">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label>Quantidade de repetições: </label>' +
+                    '<input type="text" name="quantidadeRepeticao[]">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label>Anotação: </label>' +
+                    '<input type="text" name="anotacao[]">' +
+                    '</div>' +
+                    '<button type="button" class="add-campo"> + </button>' +
+                    '<button type="button" class="remover-formulario"> - </button>';
+
+                formulario.appendChild(novoFormulario);
+            } else if (event.target.classList.contains('remover-formulario')) {
+                var formularioParaRemover = event.target.parentNode;
+                formularioParaRemover.remove();
             }
         });
 
