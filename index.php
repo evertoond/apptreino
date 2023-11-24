@@ -50,6 +50,7 @@
                     '<label>Grupo Muscular: </label>' +
                     '<input type="text" name="nomeMusculo[]">' +
                     '</div>' +
+                    '<div class="sub-campos">' +
                     '<div class="form-group">' +
                     '<label>Nome do exercício: </label>' +
                     '<input type="text" name="nomeExercicio[]">' +
@@ -66,13 +67,38 @@
                     '<label>Anotação: </label>' +
                     '<input type="text" name="anotacao[]">' +
                     '</div>' +
-                    '<button type="button" class="add-campo"> + </button>' +
+                    '<button type="button" class="add-campo-sub"> + </button>' +
+                    '</div>' +
                     '<button type="button" class="remover-formulario"> - </button>';
 
                 formulario.appendChild(novoFormulario);
             } else if (event.target.classList.contains('remover-formulario')) {
                 var formularioParaRemover = event.target.parentNode;
                 formularioParaRemover.remove();
+            } else if (event.target.classList.contains('add-campo-sub')) {
+                var formularioPai = event.target.closest('.formulario');
+                var subCampos = formularioPai.querySelector('.sub-campos');
+
+                var novoCampoSub = document.createElement('div');
+                novoCampoSub.className = 'form-group';
+                novoCampoSub.innerHTML = '<label>Nome do exercício: </label>' +
+                    '<input type="text" name="nomeExercicio[]">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label>Quantidade de séries: </label>' +
+                    '<input type="text" name="quantidadeSeries[]">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label>Quantidade de repetições: </label>' +
+                    '<input type="text" name="quantidadeRepeticao[]">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label>Anotação: </label>' +
+                    '<input type="text" name="anotacao[]">' +
+                    '</div>' +
+                    '<button type="button" class="add-campo-sub"> + </button>';
+
+                subCampos.appendChild(novoCampoSub);
             }
         });
 
