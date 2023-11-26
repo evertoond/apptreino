@@ -10,7 +10,23 @@
     <title>Treino personalizado</title>
     <style>
         .form-group {
+            display: inline-block;
+            vertical-align: top;
             padding: 10px;
+        }
+
+        .sub-campos .form-group {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+        }
+
+        .sub-campos {
+            margin-top: 10px;
+        }
+
+        .formulario {
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -27,11 +43,31 @@
             <div class="form-group">
                 <label>Grupo Muscular: </label>
                 <input type="text" name="nomeMusculo[]">
-                <button type="button" class="add-campo"> + </button>
+                <button type="button" class="add-campo-sub"> + Adicionar Subgrupo</button>
+            </div>
+            <div class="sub-campos">
+                <div class="form-group">
+                    <label>Nome do exercício: </label>
+                    <input type="text" name="nomeExercicio[]">
+                </div>
+                <div class="form-group">
+                    <label>Quantidade de séries: </label>
+                    <input type="text" name="quantidadeSeries[]">
+                </div>
+                <div class="form-group">
+                    <label>Quantidade de repetições: </label>
+                    <input type="text" name="quantidadeRepeticao[]">
+                </div>
+                <div class="form-group">
+                    <label>Anotação: </label>
+                    <input type="text" name="anotacao[]">
+                </div>
+                <button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>
             </div>
         </div>
+
         <div class="form-group">
-            <input type="button" name="CadAulas" id="CadAulas" value="cadastrar">
+            <button type="button" class="add-campo"> + Adicionar Grupo</button>
         </div>
     </form>
 
@@ -49,6 +85,7 @@
                 novoFormulario.innerHTML = '<div class="form-group">' +
                     '<label>Grupo Muscular: </label>' +
                     '<input type="text" name="nomeMusculo[]">' +
+                    '<button type="button" class="add-campo-sub"> + Adicionar Subgrupo</button>' +
                     '</div>' +
                     '<div class="sub-campos">' +
                     '<div class="form-group">' +
@@ -67,9 +104,9 @@
                     '<label>Anotação: </label>' +
                     '<input type="text" name="anotacao[]">' +
                     '</div>' +
-                    '<button type="button" class="add-campo-sub"> + </button>' +
+                    '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>' +
                     '</div>' +
-                    '<button type="button" class="remover-formulario"> - </button>';
+                    '<button type="button" class="remover-formulario"> - Remover Grupo</button>';
 
                 formulario.appendChild(novoFormulario);
             } else if (event.target.classList.contains('remover-formulario')) {
@@ -96,9 +133,12 @@
                     '<label>Anotação: </label>' +
                     '<input type="text" name="anotacao[]">' +
                     '</div>' +
-                    '<button type="button" class="add-campo-sub"> + </button>';
+                    '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>';
 
                 subCampos.appendChild(novoCampoSub);
+            } else if (event.target.classList.contains('remover-campo-sub')) {
+                var campoParaRemover = event.target.parentNode;
+                campoParaRemover.remove();
             }
         });
 
@@ -124,7 +164,9 @@
             }, 1700);
         }
     </script>
-
+    <div class="form-group">
+        <input type="button" name="CadAulas" id="CadAulas" value="cadastrar">
+    </div>
 </body>
 
 </html>
