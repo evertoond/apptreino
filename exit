@@ -1,0 +1,29 @@
+[33mcommit 79429db63b0d1888f7def2bbab173897a3dfad66[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Douglas <dougboy60@hotmail.com>
+Date:   Sun Nov 26 17:07:59 2023 -0300
+
+    mudanca na estrutura para adicionar grupos e subgrupos
+
+[33mcommit 887c1003bab84950c4c04d003e81dde96fa1c26c[m
+Author: Douglas <dougboy60@hotmail.com>
+Date:   Thu Nov 23 21:04:31 2023 -0300
+
+    implementando atualizacao
+
+[33mcommit 5c5250ed82e05a746d84d38509237c0a1c92cc78[m
+Author: Douglas <dougboy60@hotmail.com>
+Date:   Thu Nov 23 20:02:46 2023 -0300
+
+    implementando atualizacao
+
+[33mcommit 71477a1e2532638cf4d7546d4134394a9adfd876[m
+Author: Douglas <dougboy60@hotmail.com>
+Date:   Sun Nov 19 15:08:42 2023 -0300
+
+    first comiit
+
+[33mcommit fe20c33a2a17b3515e3a07183df51485c65c800d[m
+Author: evertoond <134819125+evertoond@users.noreply.github.com>
+Date:   Sun Nov 19 13:38:31 2023 -0300
+
+    Initial commit

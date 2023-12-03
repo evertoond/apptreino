@@ -33,11 +33,7 @@
 
 <body>
     <h1>Tabela de Treino</h1>
-    <?php if(isset($_SESSION['msg'])) {
-        echo $_SESSION['msg'];
-        unset($_SESSION['msg']);
-    }?>
-    <span id="msg"></span>
+  
     <form id="add-aula" method="POST">
         <div class="formulario" id="formulario1">
             <div class="form-group">
@@ -62,19 +58,19 @@
                     <label>Anotação: </label>
                     <input type="text" name="anotacao[]">
                 </div>
-                <button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>
             </div>
+            <button type="button" class="add-campo"> + Adicionar Grupo</button>
         </div>
 
         <div class="form-group">
-            <button type="button" class="add-campo"> + Adicionar Grupo</button>
+            <input type="button" name="CadAulas" id="CadAulas" value="Cadastrar">
         </div>
     </form>
 
     <script>
         var cont = 1;
 
-        document.querySelector('form').addEventListener('click', function(event) {
+        document.getElementById('add-aula').addEventListener('click', function(event) {
             if (event.target.classList.contains('add-campo')) {
                 cont++;
 
@@ -87,25 +83,7 @@
                     '<input type="text" name="nomeMusculo[]">' +
                     '<button type="button" class="add-campo-sub"> + Adicionar Subgrupo</button>' +
                     '</div>' +
-                    '<div class="sub-campos">' +
-                    '<div class="form-group">' +
-                    '<label>Nome do exercício: </label>' +
-                    '<input type="text" name="nomeExercicio[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Quantidade de séries: </label>' +
-                    '<input type="text" name="quantidadeSeries[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Quantidade de repetições: </label>' +
-                    '<input type="text" name="quantidadeRepeticao[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Anotação: </label>' +
-                    '<input type="text" name="anotacao[]">' +
-                    '</div>' +
-                    '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>' +
-                    '</div>' +
+                    '<div class="sub-campos"></div>' +
                     '<button type="button" class="remover-formulario"> - Remover Grupo</button>';
 
                 formulario.appendChild(novoFormulario);
@@ -114,28 +92,30 @@
                 formularioParaRemover.remove();
             } else if (event.target.classList.contains('add-campo-sub')) {
                 var formularioPai = event.target.closest('.formulario');
-                var subCampos = formularioPai.querySelector('.sub-campos');
+                if (formularioPai) {
+                    var subCampos = formularioPai.querySelector('.sub-campos');
 
-                var novoCampoSub = document.createElement('div');
-                novoCampoSub.className = 'form-group';
-                novoCampoSub.innerHTML = '<label>Nome do exercício: </label>' +
-                    '<input type="text" name="nomeExercicio[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Quantidade de séries: </label>' +
-                    '<input type="text" name="quantidadeSeries[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Quantidade de repetições: </label>' +
-                    '<input type="text" name="quantidadeRepeticao[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Anotação: </label>' +
-                    '<input type="text" name="anotacao[]">' +
-                    '</div>' +
-                    '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>';
+                    var novoCampoSub = document.createElement('div');
+                    novoCampoSub.className = 'form-group';
+                    novoCampoSub.innerHTML = '<label>Nome do exercício: </label>' +
+                        '<input type="text" name="nomeExercicio[]">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label>Quantidade de séries: </label>' +
+                        '<input type="text" name="quantidadeSeries[]">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label>Quantidade de repetições: </label>' +
+                        '<input type="text" name="quantidadeRepeticao[]">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label>Anotação: </label>' +
+                        '<input type="text" name="anotacao[]">' +
+                        '</div>' +
+                        '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>';
 
-                subCampos.appendChild(novoCampoSub);
+                    subCampos.appendChild(novoCampoSub);
+                }
             } else if (event.target.classList.contains('remover-campo-sub')) {
                 var campoParaRemover = event.target.parentNode;
                 campoParaRemover.remove();
@@ -158,15 +138,7 @@
             xhr.send(dados);
         });
 
-        function retirarMsg() {
-            setTimeout(function() {
-                document.getElementById('msg').style.display = 'none';
-            }, 1700);
-        }
     </script>
-    <div class="form-group">
-        <input type="button" name="CadAulas" id="CadAulas" value="cadastrar">
-    </div>
 </body>
 
 </html>
