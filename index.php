@@ -67,14 +67,11 @@
         </div>
     </form>
 
-<script>
-    var cont = 1;
-    var maxGrupos = 10;
-    var maxSubgrupos = 20;
+    <script>
+        var cont = 1;
 
-    document.getElementById('add-aula').addEventListener('click', function (event) {
-        if (event.target.classList.contains('add-campo')) {
-            if (cont < maxGrupos) {
+        document.getElementById('add-aula').addEventListener('click', function(event) {
+            if (event.target.classList.contains('add-campo')) {
                 cont++;
 
                 var formulario = document.getElementById('add-aula');
@@ -86,91 +83,62 @@
                     '<input type="text" name="nomeMusculo[]">' +
                     '<button type="button" class="add-campo-sub"> + Adicionar Subgrupo</button>' +
                     '</div>' +
-                    '<div class="sub-campos">' +
-                    '<div class="form-group">' +
-                    '<label>Nome do exercício: </label>' +
-                    '<input type="text" name="nomeExercicio[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Quantidade de séries: </label>' +
-                    '<input type="text" name="quantidadeSeries[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Quantidade de repetições: </label>' +
-                    '<input type="text" name="quantidadeRepeticao[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Anotação: </label>' +
-                    '<input type="text" name="anotacao[]">' +
-                    '</div>' +
-                    '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>' +
-                    '</div>' +
+                    '<div class="sub-campos"></div>' +
                     '<button type="button" class="remover-formulario"> - Remover Grupo</button>';
 
                 formulario.appendChild(novoFormulario);
-            } else {
-                alert('Número máximo de grupos atingido (10).');
+            } else if (event.target.classList.contains('remover-formulario')) {
+                var formularioParaRemover = event.target.parentNode;
+                formularioParaRemover.remove();
+            } else if (event.target.classList.contains('add-campo-sub')) {
+                var formularioPai = event.target.closest('.formulario');
+                if (formularioPai) {
+                    var subCampos = formularioPai.querySelector('.sub-campos');
+
+                    var novoCampoSub = document.createElement('div');
+                    novoCampoSub.className = 'form-group';
+                    novoCampoSub.innerHTML = '<label>Nome do exercício: </label>' +
+                        '<input type="text" name="nomeExercicio[]">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label>Quantidade de séries: </label>' +
+                        '<input type="text" name="quantidadeSeries[]">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label>Quantidade de repetições: </label>' +
+                        '<input type="text" name="quantidadeRepeticao[]">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label>Anotação: </label>' +
+                        '<input type="text" name="anotacao[]">' +
+                        '</div>' +
+                        '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>';
+
+                    subCampos.appendChild(novoCampoSub);
+                }
+            } else if (event.target.classList.contains('remover-campo-sub')) {
+                var campoParaRemover = event.target.parentNode;
+                campoParaRemover.remove();
             }
-        } else if (event.target.classList.contains('add-campo-sub')) {
-            var formularioPai = event.target.closest('.formulario');
-            var subCampos = formularioPai.querySelector('.sub-campos');
+        });
 
-            if (subCampos.children.length < maxSubgrupos) {
-                var novoCampoSub = document.createElement('div');
-                novoCampoSub.className = 'form-group';
-                novoCampoSub.innerHTML = '<label>Nome do exercício: </label>' +
-                    '<input type="text" name="nomeExercicio[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Quantidade de séries: </label>' +
-                    '<input type="text" name="quantidadeSeries[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Quantidade de repetições: </label>' +
-                    '<input type="text" name="quantidadeRepeticao[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Anotação: </label>' +
-                    '<input type="text" name="anotacao[]">' +
-                    '</div>' +
-                    '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>';
+        document.getElementById('CadAulas').addEventListener('click', function() {
+            var dados = new FormData(document.getElementById('add-aula'));
 
-                subCampos.appendChild(novoCampoSub);
-            } else {
-                alert('Número máximo de subgrupos atingido (20).');
-            }
-        } else if (event.target.classList.contains('remover-formulario')) {
-            var formularioParaRemover = event.target.parentNode;
-            formularioParaRemover.remove();
-        } else if (event.target.classList.contains('remover-campo-sub')) {
-            var campoParaRemover = event.target.parentNode;
-            campoParaRemover.remove();
-        }
-    });
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'insert.php', true);
 
-    document.getElementById('CadAulas').addEventListener('click', function () {
-        var dados = new FormData(document.getElementById('add-aula'));
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    document.getElementById('msg').innerHTML = xhr.responseText;
+                    retirarMsg();
+                }
+            };
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'insert.php', true);
+            xhr.send(dados);
+        });
 
-        xhr.onload = function () {
-            if (xhr.status == 200) {
-                document.getElementById('msg').innerHTML = xhr.responseText;
-                retirarMsg();
-            }
-        };
-
-        xhr.send(dados);
-    });
-
-    function retirarMsg() {
-        setTimeout(function () {
-            document.getElementById('msg').style.display = 'none';
-        }, 1700);
-    }
-</script>
-
+    </script>
 </body>
 
 </html>
