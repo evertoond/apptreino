@@ -8,136 +8,104 @@
 <head>
     <meta charset="utf-8">
     <title>Treino personalizado</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         .form-group {
-            display: inline-block;
-            vertical-align: top;
             padding: 10px;
-        }
-
-        .sub-campos .form-group {
-            display: inline-block;
-            vertical-align: top;
-            margin-right: 10px;
-        }
-
-        .sub-campos {
-            margin-top: 10px;
-        }
-
-        .formulario {
-            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body>
     <h1>Tabela de Treino</h1>
-  
+    <?php if(isset( $_SESSION['msg'])){
+        echo  $_SESSION['msg'];
+        unset  ($_SESSION['msg']);
+    }?>
+    <span id="msg"></span>
     <form id="add-aula" method="POST">
-        <div class="formulario" id="formulario1">
-            <div class="form-group">
-                <label>Grupo Muscular: </label>
-                <input type="text" name="nomeMusculo[]">
-                <button type="button" class="add-campo-sub"> + Adicionar Subgrupo</button>
-            </div>
-            <div class="sub-campos">
+        <div id="formulario">
+            <div class="grupo">
                 <div class="form-group">
-                    <label>Nome do exercício: </label>
-                    <input type="text" name="nomeExercicio[]">
-                </div>
-                <div class="form-group">
-                    <label>Quantidade de séries: </label>
-                    <input type="text" name="quantidadeSeries[]">
-                </div>
-                <div class="form-group">
-                    <label>Quantidade de repetições: </label>
-                    <input type="text" name="quantidadeRepeticao[]">
-                </div>
-                <div class="form-group">
-                    <label>Anotação: </label>
-                    <input type="text" name="anotacao[]">
+                    <label>Grupo Muscular: </label>
+                    <input type="text" name="nomeMusculo[]">
+                    <button type="button" class="add-campo"> + </button>
+                    <button type="button" class="remove-grupo"> Remover Grupo </button>
                 </div>
             </div>
-            <button type="button" class="add-campo"> + Adicionar Grupo</button>
+            <button type="button" id="add-grupo"> Adicionar Grupo </button>
+        </div>
+        <div class="form-group">
+            <input type="button" name="CadAulas" id="CadAulas" value="cadastrar">
         </div>
 
-        <div class="form-group">
-            <input type="button" name="CadAulas" id="CadAulas" value="Cadastrar">
-        </div>
     </form>
 
     <script>
-        var cont = 1;
+        var contGrupo = 1;
+        var contCampo = 1;
 
-        document.getElementById('add-aula').addEventListener('click', function(event) {
-            if (event.target.classList.contains('add-campo')) {
-                cont++;
+        $('#add-grupo').click(function() {
+            contGrupo++;
 
-                var formulario = document.getElementById('add-aula');
-                var novoFormulario = document.createElement('div');
-                novoFormulario.className = 'formulario';
-                novoFormulario.id = 'formulario' + cont;
-                novoFormulario.innerHTML = '<div class="form-group">' +
-                    '<label>Grupo Muscular: </label>' +
-                    '<input type="text" name="nomeMusculo[]">' +
-                    '<button type="button" class="add-campo-sub"> + Adicionar Subgrupo</button>' +
-                    '</div>' +
-                    '<div class="sub-campos"></div>' +
-                    '<button type="button" class="remover-formulario"> - Remover Grupo</button>';
+            var novoGrupo = $('<div class="grupo">' +
+                '<div class="form-group">' +
+                '<label>Grupo Muscular: </label>' +
+                '<input type="text" name="nomeMusculo[]">' +
+                '<button type="button" class="add-campo"> + </button>' +
+                '<button type="button" class="remove-grupo"> Remover Grupo </button>' +
+                '</div>' +
+                '</div>');
 
-                formulario.appendChild(novoFormulario);
-            } else if (event.target.classList.contains('remover-formulario')) {
-                var formularioParaRemover = event.target.parentNode;
-                formularioParaRemover.remove();
-            } else if (event.target.classList.contains('add-campo-sub')) {
-                var formularioPai = event.target.closest('.formulario');
-                if (formularioPai) {
-                    var subCampos = formularioPai.querySelector('.sub-campos');
+            $('#formulario').append(novoGrupo);
+        });
 
-                    var novoCampoSub = document.createElement('div');
-                    novoCampoSub.className = 'form-group';
-                    novoCampoSub.innerHTML = '<label>Nome do exercício: </label>' +
-                        '<input type="text" name="nomeExercicio[]">' +
-                        '</div>' +
-                        '<div class="form-group">' +
-                        '<label>Quantidade de séries: </label>' +
-                        '<input type="text" name="quantidadeSeries[]">' +
-                        '</div>' +
-                        '<div class="form-group">' +
-                        '<label>Quantidade de repetições: </label>' +
-                        '<input type="text" name="quantidadeRepeticao[]">' +
-                        '</div>' +
-                        '<div class="form-group">' +
-                        '<label>Anotação: </label>' +
-                        '<input type="text" name="anotacao[]">' +
-                        '</div>' +
-                        '<button type="button" class="remover-campo-sub"> - Remover Subgrupo</button>';
+        $('#formulario').on('click', '.add-campo', function() {
+            contCampo++;
 
-                    subCampos.appendChild(novoCampoSub);
-                }
-            } else if (event.target.classList.contains('remover-campo-sub')) {
-                var campoParaRemover = event.target.parentNode;
-                campoParaRemover.remove();
+            var novoCampo = $('<div class="form-group" id="campo' + contCampo + '">' +
+                '<label>Nome do exercício: </label>' +
+                '<input type="text" name="nomeExercicio[]">' +
+                '<label>Quantidade de séries: </label>' +
+                '<input type="text" name="quantidadeSeries[]">' +
+                '<label>Quantidade de repetições: </label>' +
+                '<input type="text" name="quantidadeRepeticao[]">' +
+                '<label>Anotação: </label>' +
+                '<input type="text" name="anotacao[]">' +
+                '<button type="button" id="' + contCampo + '" class="btn-apagar"> - </button>' +
+                '</div>');
+
+            $(this).closest('.grupo').append(novoCampo);
+        });
+
+        $('#formulario').on('click', '.remove-grupo', function() {
+            var confirmacao = confirm("Tem certeza de que deseja remover este grupo?");
+            if (confirmacao) {
+                $(this).closest('.grupo').remove();
             }
         });
 
-        document.getElementById('CadAulas').addEventListener('click', function() {
-            var dados = new FormData(document.getElementById('add-aula'));
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'insert.php', true);
-
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    document.getElementById('msg').innerHTML = xhr.responseText;
-                    retirarMsg();
-                }
-            };
-
-            xhr.send(dados);
+        $('#formulario').on('click', '.btn-apagar', function() {
+            var confirmacao = confirm("Tem certeza de que deseja remover este campo?");
+            if (confirmacao) {
+                var button_id = $(this).attr("id");
+                $('#campo' + button_id).remove();
+            }
         });
 
+        $("#CadAulas").click(function() {
+            var dados = $("#add-aula").serialize();
+            $.post("insert.php", dados, function(retorna) {
+                $("#msg").html(retorna);
+                retirarMsg();
+            });
+        });
+
+        function retirarMsg() {
+            setTimeout(function() {
+                $("#msg").slideUp('slow', function() {});
+            }, 1700);
+        }
     </script>
 </body>
 
